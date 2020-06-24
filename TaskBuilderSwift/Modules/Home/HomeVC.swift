@@ -3,7 +3,7 @@
 //  TaskBuilderSwift
 //
 //  Created by Md. Kamrul Hasan on 23/6/20.
-//  Copyright © 2020 Maya Digital Health Pte. Ltd. All rights reserved.
+//  Copyright © 2020 MKHG Lab. All rights reserved.
 //
 
 import UIKit
@@ -19,7 +19,11 @@ class HomeVC: UIViewController {
     }
     @IBOutlet weak var startButton: UIButton!
     
-    var rows: [TaskRowData] = []
+    var rows: [TaskRowData] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     var viewModel: HomeVM?
     
     override func viewDidLoad() {
@@ -29,8 +33,9 @@ class HomeVC: UIViewController {
         viewModel?.delegate = self
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        TaskManager.shared.bindDependency()
         
         viewModel?.setupData()
         setupViews()
@@ -39,6 +44,8 @@ class HomeVC: UIViewController {
     func setupViews() {
         if TaskManager.shared.tasks.count == 0 {
             startButton.setTitle("Simulate Mock Tasks", for: .normal)
+        } else if viewModel?.haveRunningTask() ?? false {
+            startButton.setTitle("Resume Tasks", for: .normal)
         } else {
             startButton.setTitle("Start Tasks", for: .normal)
         }
@@ -60,7 +67,6 @@ class HomeVC: UIViewController {
 extension HomeVC: HomeVMDelegate {
     func rowsUpdated(rows: [TaskRowData]) {
         self.rows = rows
-        tableView.reloadData()
     }
 }
 

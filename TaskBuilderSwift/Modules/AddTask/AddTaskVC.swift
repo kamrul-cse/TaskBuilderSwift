@@ -3,7 +3,7 @@
 //  TaskBuilderSwift
 //
 //  Created by Md. Kamrul Hasan on 23/6/20.
-//  Copyright © 2020 Maya Digital Health Pte. Ltd. All rights reserved.
+//  Copyright © 2020 MKHG Lab. All rights reserved.
 //
 
 import UIKit
@@ -23,6 +23,10 @@ class AddTaskVC: UIViewController {
         
         viewModel = AddTaskVM()
     }
+    
+    deinit {
+        print("AddTaskVC deinit")
+    }
 
     @IBAction func addTapped(_ sender: Any) {
                 
@@ -30,8 +34,9 @@ class AddTaskVC: UIViewController {
             messageLabel.text = error
             messageLabel.isHidden = error == nil
             
-            if error == nil {
-                TaskManager.shared.add(task: model)
+            if error == nil, let task = model {
+                let taskVM = TaskViewModel(model: task, cell: TaskCell.getCell(task: task))
+                TaskManager.shared.add(task: taskVM)
                 navigationController?.popViewController(animated: true)
             }
 

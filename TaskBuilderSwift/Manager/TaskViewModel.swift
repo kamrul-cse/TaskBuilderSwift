@@ -3,19 +3,17 @@
 //  TaskBuilderSwift
 //
 //  Created by Md. Kamrul Hasan on 23/6/20.
-//  Copyright © 2020 Maya Digital Health Pte. Ltd. All rights reserved.
+//  Copyright © 2020 MKHG Lab. All rights reserved.
 //
 
 import UIKit
 
 class TaskViewModel {
-    var model: TaskModel
-    var timer: Timer? = nil
+    var task: Task
     var cell: TaskCell
     
-    init(model: TaskModel, cell: TaskCell) {
-        self.model = model
+    init(model: Task, cell: TaskCell) {
+        self.task = model
         self.cell = cell
-        self.timer = nil
     }
 }

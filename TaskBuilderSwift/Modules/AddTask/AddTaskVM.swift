@@ -3,16 +3,20 @@
 //  TaskBuilderSwift
 //
 //  Created by Md. Kamrul Hasan on 23/6/20.
-//  Copyright © 2020 Maya Digital Health Pte. Ltd. All rights reserved.
+//  Copyright © 2020 MKHG Lab. All rights reserved.
 //
 
 import Foundation
 
 class AddTaskVM {
     
-    func constructTask(name: String?, time: String?, dependency: String?) -> (error: String?, model: TaskModel?) {
+    deinit {
+        print("AddTaskVM deinit")
+    }
+    
+    func constructTask(name: String?, time: String?, dependency: String?) -> (error: String?, model: Task?) {
         var error: String?
-        var model: TaskModel?
+        var model: Task?
         
         var taskName: String = ""
         var taskEstimatedTime: Float = 0
@@ -37,11 +41,11 @@ class AddTaskVM {
                 return (error, model)
             }
         } else {
-            // this is optional
-            // so let it go optional
+            // dependency is optional
+            // so let it go empty
         }
         
-        model = TaskModel(name: taskName, estimatedTime: taskEstimatedTime, dependencies: taskDependencies)
+        model = Task(name: taskName, estimatedTime: taskEstimatedTime, dependencies: taskDependencies)
         return (error, model)
     }
 }

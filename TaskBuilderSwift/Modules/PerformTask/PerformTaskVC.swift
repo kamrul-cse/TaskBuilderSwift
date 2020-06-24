@@ -3,7 +3,7 @@
 //  TaskBuilderSwift
 //
 //  Created by Md. Kamrul Hasan on 23/6/20.
-//  Copyright © 2020 Maya Digital Health Pte. Ltd. All rights reserved.
+//  Copyright © 2020 MKHG Lab. All rights reserved.
 //
 
 import UIKit
@@ -18,22 +18,43 @@ class PerformTaskVC: UIViewController {
     }
     
     var viewModel: PerformTaskVM?
-    var rows: [TaskRowData] = []
+    var rows: [TaskRowData] = [] {
+        didSet {
+            DispatchQueue.main.async { [weak self] in
+                self?.tableView.reloadData()
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         viewModel = PerformTaskVM()
         viewModel?.delegate = self
-                
+        
         viewModel?.resumeTasks()
+        viewModel?.refreshData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        viewModel?.stop()
+    }
+    
+    deinit {
+        print("PerformTaskVC deinit")
     }
 }
 
 extension PerformTaskVC: PerformTaskVMDelegate {
     func rowUpdated(rows: [TaskRowData]) {
         self.rows = rows
-        tableView.reloadData()
     }
 }
 
