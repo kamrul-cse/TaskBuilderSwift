@@ -145,8 +145,8 @@
 		026FDD5624A2449700A4172F /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				026FDD6024A2545B00A4172F /* AddTask */,
 				026FDD5F24A2545000A4172F /* Home */,
+				026FDD6024A2545B00A4172F /* AddTask */,
 				026FDD5724A2449E00A4172F /* PerformTask */,
 			);
 			path = Modules;
